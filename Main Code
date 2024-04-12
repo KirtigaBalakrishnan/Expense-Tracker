@@ -16,35 +16,44 @@ class Expense_Tracker_App:
         self.main_window = main_window
         self.main_window.title("Expense Tracker")
 
+        style = ttk.Style(main_window)
+        style.configure('My.TLabel', background='lightblue')
+        style.configure('My.TEntry', background='white')
+        style.configure('My.TCombobox', fieldbackground='white', background='white')
+        style.configure('My.TButton', background='blue', foreground='white')
+
         self.expenses = []
 
-        self.date_label = ttk.Label(main_window, text="Date (YYYY-MM-DD):")
+        self.date_label = ttk.Label(main_window, text="Date (YYYY-MM-DD):", style='My.TLabel')
         self.date_label.grid(row=0, column=0, padx=10, pady=10)
-        self.date_entry = ttk.Entry(main_window)
+        self.date_entry = ttk.Entry(main_window, style='My.TEntry')
         self.date_entry.grid(row=0, column=1, padx=10, pady=10)
 
-        self.amount_label = ttk.Label(main_window, text="Amount:")
+        self.amount_label = ttk.Label(main_window, text="Amount:", style='My.TLabel')
         self.amount_label.grid(row=1, column=0, padx=10, pady=10)
-        self.amount_entry = ttk.Entry(main_window)
+        self.amount_entry = ttk.Entry(main_window, style='My.TEntry')
         self.amount_entry.grid(row=1, column=1, padx=10, pady=10)
 
-        self.category_label = ttk.Label(main_window, text="Category:")
+        self.category_label = ttk.Label(main_window, text="Category:", style='My.TLabel')
         self.category_label.grid(row=2, column=0, padx=10, pady=10)
         self.category_combobox = ttk.Combobox(main_window,
-                                              values=["Grocery", "Transport", "Utilities", "Entertainment", "House (Rent or EMI)", "Miscellaneous"])
+                                              values=["Grocery", "Transport", "Utilities", "Entertainment", "House (Rent or EMI)", "Miscellaneous"], style='My.TCombobox')
         self.category_combobox.grid(row=2, column=1, padx=10, pady=10)
 
-        self.add_button = ttk.Button(main_window, text="Add Expense", command=self.add_expense)
+        self.add_button = ttk.Button(main_window, text="Add Expense", command=self.add_expense, style='My.TButton')
         self.add_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+        #self.add_button.configure(background='blue', foreground='white')
 
-        self.clear_button = ttk.Button(main_window, text="Clear", command=self.clear_button)
+        self.clear_button = ttk.Button(main_window, text="Clear", command=self.clear_button, style='My.TButton')
         self.clear_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+        #self.clear_button.configure(background='red', foreground='white')
 
-        self.sum_button = ttk.Button(main_window, text="Sum", command=self.sum_expenses)
+        self.sum_button = ttk.Button(main_window, text="Sum", command=self.sum_expenses, style='My.TButton')
         self.sum_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+        #self.sum_button.configure(background='green', foreground='white')
 
-        #self.generate_button = ttk.Button(main_window, text="Generate Report", command=self.generate_report)
-        #self.generate_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
+        self.generate_button = ttk.Button(main_window, text="Generate Report", command=self.generate_report)
+        self.generate_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
 
     def clear_button(self):
@@ -93,7 +102,34 @@ class Expense_Tracker_App:
         else:
             messagebox.showerror("Error", "No expenses found for " + date)
 
+    def generate_report(self):
+        categories_total = {"Grocery": 0, "Transport": 0, "Utilities": 0, "Entertainment": 0, "House (Rent or EMI)": 0, "Miscellaneous": 0}
+
+        with open('expenses.csv', mode='r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                category = row[1]
+                amount = float(row[2])
+                categories_total[category] += amount
+
+        categories = list(categories_total.keys())
+        amounts = list(categories_total.values())
+
+        fig, ax = plt.subplots()
+        ax.bar(categories, amounts)
+        ax.set_xlabel('Category')
+        ax.set_ylabel('Total Expense (in $)')
+        ax.set_title('Total Expense by Category')
+        ax.grid(True)
+
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+
+        plt.show()
+
+
 main_window = tk.Tk()
+main_window.configure(bg='light blue')
 app = Expense_Tracker_App(main_window)
 main_window.mainloop()
 
