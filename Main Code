@@ -4,7 +4,7 @@ import csv
 import matplotlib.pyplot as plt
 #import datetime #New Library
 
-class Expense: #OBOP
+class Expense:
     def __init__(self, date, amount, category):
         self.date = date
         self.amount = amount
@@ -20,7 +20,8 @@ class Expense_Tracker_App:
         style.configure('My.TLabel', background='lightblue')
         style.configure('My.TEntry', background='white')
         style.configure('My.TCombobox', fieldbackground='white', background='white')
-        style.configure('My.TButton', background='blue', foreground='white')
+        style.configure('My.TButton', background='green', foreground='white', font=('Arial', 12), relief='raised')
+        style.map('My.TButton', background=[('active', 'green')], foreground=[('active', 'white')])
 
         self.expenses = []
 
@@ -40,19 +41,16 @@ class Expense_Tracker_App:
                                               values=["Grocery", "Transport", "Utilities", "Entertainment", "House (Rent or EMI)", "Miscellaneous"], style='My.TCombobox')
         self.category_combobox.grid(row=2, column=1, padx=10, pady=10)
 
-        self.add_button = ttk.Button(main_window, text="Add Expense", command=self.add_expense, style='My.TButton')
+        self.add_button = ttk.Button(main_window, text="Add Expense", command=self.add_expense, style='My.TButton', state='normal')
         self.add_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
-        #self.add_button.configure(background='blue', foreground='white')
 
-        self.clear_button = ttk.Button(main_window, text="Clear", command=self.clear_button, style='My.TButton')
+        self.clear_button = ttk.Button(main_window, text="Clear", command=self.clear_button, style='My.TButton', state='normal')
         self.clear_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
-        #self.clear_button.configure(background='red', foreground='white')
 
-        self.sum_button = ttk.Button(main_window, text="Sum", command=self.sum_expenses, style='My.TButton')
+        self.sum_button = ttk.Button(main_window, text="Sum", command=self.sum_expenses, style='My.TButton', state='normal')
         self.sum_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
-        #self.sum_button.configure(background='green', foreground='white')
 
-        self.generate_button = ttk.Button(main_window, text="Generate Report", command=self.generate_report)
+        self.generate_button = ttk.Button(main_window, text="Generate Report", command=self.generate_report, style='My.TButton', state='normal')
         self.generate_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
 
@@ -70,7 +68,7 @@ class Expense_Tracker_App:
             return
         try:
             amount = float(amount) #2nd validation check
-        except ValueError: #
+        except ValueError:
             messagebox.showerror("Error", "Amount must be a number.")
             return
 
@@ -97,7 +95,7 @@ class Expense_Tracker_App:
                 if row[0] == date:
                     total_expense += float(row[2])
 
-        if total_expense > 0: #Usage of if, else loop
+        if total_expense > 0: #Usage of if, else
             messagebox.showinfo("Total Expense", "Total expense for " + date + ": $" + str(float(total_expense)))
         else:
             messagebox.showerror("Error", "No expenses found for " + date)
@@ -115,21 +113,47 @@ class Expense_Tracker_App:
         categories = list(categories_total.keys())
         amounts = list(categories_total.values())
 
+        colors = {
+            "Grocery": "orange",
+            "Transport": "purple",
+            "Utilities": "green",
+            "Entertainment": "red",
+            "House (Rent or EMI)": "blue",
+            "Miscellaneous": "pink"
+        }
+
+        color_list = [colors[category] for category in categories]
+
         fig, ax = plt.subplots()
-        ax.bar(categories, amounts)
-        ax.set_xlabel('Category')
+        bars = ax.bar(categories, amounts, color=color_list)
+        ax.set_xlabel('Categories')
         ax.set_ylabel('Total Expense (in $)')
         ax.set_title('Total Expense by Category')
-        ax.grid(True)
+
+        for bar, amount in zip(bars, amounts):
+            x_pos = bar.get_x() + bar.get_width() / 2
+            y_pos = bar.get_height()
+            ax.text(
+                x_pos,
+                y_pos,
+                f'${amount:.2f}',
+                ha='center',
+                va='bottom',
+                fontsize=9,
+                color='black'
+            )
 
         plt.xticks(rotation=45)
         plt.tight_layout()
-
+        plt.savefig('report.png')
+        plt.savefig('/Users/kay/Desktop/report.png') # Saves the report on the desktop
         plt.show()
+        messagebox.showinfo("Report Saved", "Report Saved To Your Desktop.")
 
 
 main_window = tk.Tk()
-main_window.configure(bg='light blue')
+main_window.configure(bg='white')
 app = Expense_Tracker_App(main_window)
 main_window.mainloop()
+#self.add_button = tk.Button(main_window, text="Add Expense", command=self.add_expense, bg='blue', fg='black', font=('Arial', 12), relief='raised')
 
