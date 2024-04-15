@@ -1,5 +1,4 @@
-In current situation it is very necessary to manage the expense especially to reduce our credit card bills. 
-I am designing an application to track daily expense and find if the user is spending more than required in a particular category.
-The application will help the user to store daily expenses and it’s categories and it sums up all the values entered by the user according to the date. 
-A bar graph will be generated based on the categories. The graph helps the user to check if the user has to reduce any unnecessary expense on a particular category.
-
+I have designed an application that allows users to track and manage their daily expense efficiently.
+The application provides a simple and user-friendly interface to log, categorize and analyze expenses by generating reports to visualize spending patterns.
+It is a valuable tool for anyone looking to monitor and manage their finances.
+NOTE: If you want to save a copy of your expense report on to your desktop, please replace the file location with your choice in the main code.
