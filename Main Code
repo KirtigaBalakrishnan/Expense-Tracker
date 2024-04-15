@@ -20,7 +20,7 @@ class Expense_Tracker_App:
         style.configure('My.TLabel', background='lightblue')
         style.configure('My.TEntry', background='white')
         style.configure('My.TCombobox', fieldbackground='white', background='white')
-        style.configure('My.TButton', background='green', foreground='white', font=('Arial', 12), relief='raised')
+        style.configure('My.TButton', background='green', foreground='black', font=('Arial', 12), relief='raised')
         style.map('My.TButton', background=[('active', 'green')], foreground=[('active', 'white')])
 
         self.expenses = []
@@ -38,19 +38,24 @@ class Expense_Tracker_App:
         self.category_label = ttk.Label(main_window, text="Category:", style='My.TLabel')
         self.category_label.grid(row=2, column=0, padx=10, pady=10)
         self.category_combobox = ttk.Combobox(main_window,
-                                              values=["Grocery", "Transport", "Utilities", "Entertainment", "House (Rent or EMI)", "Miscellaneous"], style='My.TCombobox')
+                                              values=["Grocery", "Transport", "Utilities", "Entertainment",
+                                                      "House (Rent or EMI)", "Miscellaneous"], style='My.TCombobox')
         self.category_combobox.grid(row=2, column=1, padx=10, pady=10)
 
-        self.add_button = ttk.Button(main_window, text="Add Expense", command=self.add_expense, style='My.TButton', state='normal')
+        self.add_button = tk.Button(main_window, text="Add Expense", command=self.add_expense, bg='pink', fg='black',
+                                    font=('Arial', 12), relief='raised')
         self.add_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
-        self.clear_button = ttk.Button(main_window, text="Clear", command=self.clear_button, style='My.TButton', state='normal')
+        self.clear_button = tk.Button(main_window, text="Clear", command=self.clear_button, bg='pink', fg='black',
+                                      font=('Arial', 12), relief='raised')
         self.clear_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
-        self.sum_button = ttk.Button(main_window, text="Sum", command=self.sum_expenses, style='My.TButton', state='normal')
+        self.sum_button = tk.Button(main_window, text="Sum", command=self.sum_expenses, bg='pink', fg='black',
+                                    font=('Arial', 12), relief='raised')
         self.sum_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
-        self.generate_button = ttk.Button(main_window, text="Generate Report", command=self.generate_report, style='My.TButton', state='normal')
+        self.generate_button = tk.Button(main_window, text="Generate Report", command=self.generate_report, bg='pink',
+                                         fg='black', font=('Arial', 12), relief='raised')
         self.generate_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
 
