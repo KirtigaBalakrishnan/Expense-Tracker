@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
 import csv
 import matplotlib.pyplot as plt
+import datetime
 
 
 class Expense:
@@ -10,7 +11,6 @@ class Expense:
         self.date = date
         self.amount = amount
         self.category = category
-
 
 class Expense_Tracker_App:
     def __init__(self, main_window):
@@ -28,7 +28,7 @@ class Expense_Tracker_App:
 
         self.date_label = ttk.Label(main_window, text="Date (YYYY-MM-DD):", style='My.TLabel')
         self.date_label.grid(row=0, column=0, padx=10, pady=10)
-        self.date_entry = DateEntry(main_window, date_pattern='yyyy-mm-dd', style='My.TEntry')
+        self.date_entry = DateEntry(main_window, date_pattern='yyyy-mm-dd', style='My.TEntry', date='')
         self.date_entry.grid(row=0, column=1, padx=10, pady=10)
 
         self.amount_label = ttk.Label(main_window, text="Amount:", style='My.TLabel')
@@ -39,7 +39,7 @@ class Expense_Tracker_App:
         self.category_label = ttk.Label(main_window, text="Category:", style='My.TLabel')
         self.category_label.grid(row=2, column=0, padx=10, pady=10)
         self.category_combobox = ttk.Combobox(main_window, values=["Grocery", "Transport", "Utilities", "Entertainment",
-                                                                   "House (Rent or EMI)", "Miscellaneous"],
+                                                                   "Housing", "Miscellaneous"],
                                               style='My.TCombobox')
         self.category_combobox.grid(row=2, column=1, padx=10, pady=10)
 
@@ -68,6 +68,7 @@ class Expense_Tracker_App:
         date = self.date_entry.get_date()
         amount = self.amount_entry.get()
         category = self.category_combobox.get()
+
         if not date or not amount or not category:  # 1st Validation check
             messagebox.showerror("Error", "Please fill all the fields.")
             return
@@ -76,6 +77,11 @@ class Expense_Tracker_App:
             amount = float(amount)  # 2nd validation check
         except ValueError:
             messagebox.showerror("Error", "Amount must be a number.")
+            return
+
+        current_date = datetime.date.today()  # 3rd validation check
+        if date > current_date:
+            messagebox.showerror("Error", "Date cannot be in the future.")
             return
 
         expense = Expense(date, amount, category)
@@ -102,7 +108,7 @@ class Expense_Tracker_App:
             messagebox.showerror("Error", "No expenses found for " + date.strftime('%Y-%m-%d'))
 
     def generate_report(self):
-        categories_total = {"Grocery": 0, "Transport": 0, "Utilities": 0, "Entertainment": 0, "House (Rent or EMI)": 0,
+        categories_total = {"Grocery": 0, "Transport": 0, "Utilities": 0, "Entertainment": 0, "Housing": 0,
                             "Miscellaneous": 0}
 
         with open('expenses.csv', mode='r') as file:
@@ -120,7 +126,7 @@ class Expense_Tracker_App:
             "Transport": "purple",
             "Utilities": "green",
             "Entertainment": "red",
-            "House (Rent or EMI)": "blue",
+            "Housing": "blue",
             "Miscellaneous": "pink"
         }
 
@@ -150,7 +156,7 @@ class Expense_Tracker_App:
         plt.savefig('report.png')
         plt.savefig('/Users/kay/Desktop/report.png')  # Saves the report on the desktop
         plt.show()
-        messagebox.showinfo("Report Saved", "Report Saved To Your Desktop.")
+        messagebox.showinfo("Report Saved", "Report Saved To Your Desktop :)")
 
 
 main_window = tk.Tk()
