@@ -70,13 +70,13 @@ class Expense_Tracker_App:
         category = self.category_combobox.get()
 
         if not date or not amount or not category:  # 1st Validation check
-            messagebox.showerror("Error", "Please fill all the fields.")
+            messagebox.showerror("Error", "Please fill all the fields :(")
             return
 
         try:
             amount = float(amount)  # 2nd validation check
         except ValueError:
-            messagebox.showerror("Error", "Amount must be a number.")
+            messagebox.showerror("Error", "Amount must be a number :(")
             return
 
         current_date = datetime.date.today()  # 3rd validation check
