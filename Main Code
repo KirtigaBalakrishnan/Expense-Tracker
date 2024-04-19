@@ -43,20 +43,20 @@ class Expense_Tracker_App:
                                               style='My.TCombobox')
         self.category_combobox.grid(row=2, column=1, padx=10, pady=10)
 
-        self.add_button = tk.Button(main_window, text="Add Expense", command=self.add_expense, bg='pink', fg='black',
-                                    font=('Arial', 12), relief='raised')
+        self.add_button = tk.Button(main_window, text="Add Expense", command=self.add_expense, bg='light green', fg='black',
+                                    font=('Arial', 10), relief='raised')
         self.add_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
-        self.clear_button = tk.Button(main_window, text="Clear", command=self.clear_entries, bg='pink', fg='black',
-                                      font=('Arial', 12), relief='raised')
+        self.clear_button = tk.Button(main_window, text="Clear", command=self.clear_entries, bg='light green', fg='black',
+                                      font=('Arial', 10), relief='raised')
         self.clear_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
-        self.sum_button = tk.Button(main_window, text="Sum", command=self.sum_expenses, bg='pink', fg='black',
-                                    font=('Arial', 12), relief='raised')
+        self.sum_button = tk.Button(main_window, text="Sum", command=self.sum_expenses, bg='light green', fg='black',
+                                    font=('Arial', 10), relief='raised')
         self.sum_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
-        self.generate_button = tk.Button(main_window, text="Generate Report", command=self.generate_report, bg='pink',
-                                         fg='black', font=('Arial', 12), relief='raised')
+        self.generate_button = tk.Button(main_window, text="Generate Report", command=self.generate_report, bg='light green',
+                                         fg='black', font=('Arial', 10), relief='raised')
         self.generate_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
     def clear_entries(self):
@@ -156,7 +156,7 @@ class Expense_Tracker_App:
         plt.savefig('report.png')
         plt.savefig('/Users/kay/Desktop/report.png')  # Saves the report on the desktop
         plt.show()
-        messagebox.showinfo("Report Saved", "Report Saved To Your Desktop :)")
+        messagebox.showinfo("Success", "Report Saved :)")
 
 
 main_window = tk.Tk()
